@@ -14,7 +14,7 @@ Fill in `vars` file (per https://www.postgresql.org/docs/current/libpq-connect.h
 - `SUB_CONNECTION` = connection to current DB as used from new DB (usually same as `OLD_CONNECTION`, but differs in docker based test example due to specific docker networking)
 - `PGB_CONNECTION` = connection to pgbouncer
 
-```
+```bash
 $ cp vars.example vars
 # update vars
 $ source vars
