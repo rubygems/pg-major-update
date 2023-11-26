@@ -17,6 +17,7 @@ Fill in `vars` file (per https://www.postgresql.org/docs/current/libpq-connect.h
 ```
 $ cp vars.example vars
 # update vars
+$ source vars
 ```
 
 ## setup clusters (for dev testing)
