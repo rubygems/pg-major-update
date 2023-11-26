@@ -1,0 +1,30 @@
+version: '2.1'
+services:
+  db-old:
+    image: postgres:11
+    environment:
+      - POSTGRES_USER=rubygems_master
+      - POSTGRES_DB=rubygems_development
+      - POSTGRES_PASSWORD=randompass-old
+    networks:
+      - db
+    ports:
+      - 5555:5432
+    volumes:
+      - "./configs/postgres.old.conf:/postgres.conf:z"
+    command: postgres -c 'config_file=/postgres.conf'
+  db-new:
+    image: postgres:12
+    environment:
+      - POSTGRES_USER=rubygems_master
+      - POSTGRES_DB=rubygems_development
+      - POSTGRES_PASSWORD=randompass-new
+    networks:
+      - db
+    ports:
+      - 5556:5432
+    volumes:
+      - "./configs/postgres.new.conf:/postgres.conf:z"
+    command: postgres -c 'config_file=/postgres.conf'
+networks:
+  db:
