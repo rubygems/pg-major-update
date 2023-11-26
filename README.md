@@ -1,11 +1,9 @@
 # Online PostgreSQL migration
 
-## testing
-
-- get latest dump for testing, unpack and copy to rubygems.sql
-
-
 ## setup
+
+- `pgbouncer` and `psql` executables must be installed (`apt-get install postgresql-client pgbouncer`)
+- for local test also `tar` and `gunzip` is needed
 
 Fill in `vars` file (per https://www.postgresql.org/docs/current/libpq-connect.html#LIBPQ-PARAMKEYWORDS).
 
@@ -20,27 +18,32 @@ $ cp vars.example vars
 $ source vars
 ```
 
-## setup clusters (for dev testing)
+## migration
+
+`pgbouncer` is temporarily needed for migration to hand over opened connections. Initially, it needs to be pointing to old DB. For simple setup, it is enough to reuse example config from this repository.
 
 ```bash
-./scripts/init.sh
+useradd pgbouncer
+mkdir /tmp/pgb
+chown -R pgbouncer:pgbouncer /tmp/pgb
+
+cp configs/pgbouncer.ini pgbouncer.ini
+echo "db = $OLD_CONNECTION" >> pgbouncer.ini
+pgbouncer -d pgbouncer.ini
 ```
 
-## start replication
+
+## testing migration locally
 
 ```bash
-./scripts/replicate.sh
-```
-
-## wait unless initial replication is in sync
-
-```bash
+# download latest public_postgresql.tar from https://rubygems.org/pages/data into root folder
+./scripts/init.sh # start local pg instances and pgbouncer
+./scripts/replicate.sh # start replication
+# wait unless initial replication is in sync, for example with following command
 psql "$NEW_CONNECTION" -c "SELECT * FROM pg_stat_subscription" # only one line should be present
-```
 
-## migrate
+# once ready
 
-```bash
 ./scripts/pause.sh # pause old cluster and wait unless connections are gone
 ./scripts/lag.sh # wait unless replication is in sync
 ./scripts/sequences.sh # sync sequences manually
