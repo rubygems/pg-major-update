@@ -1,6 +1,6 @@
 version: '2.1'
 services:
-  db-old:
+  old-db:
     image: postgres:11
     environment:
       - POSTGRES_USER=rubygems_master
@@ -9,11 +9,11 @@ services:
     networks:
       - db
     ports:
-      - 5555:5432
+      - 5555:5555
     volumes:
       - "./configs/postgres.old.conf:/postgres.conf:z"
     command: postgres -c 'config_file=/postgres.conf'
-  db-new:
+  new-db:
     image: postgres:12
     environment:
       - POSTGRES_USER=rubygems_master
@@ -22,7 +22,7 @@ services:
     networks:
       - db
     ports:
-      - 5556:5432
+      - 5556:5556
     volumes:
       - "./configs/postgres.new.conf:/postgres.conf:z"
     command: postgres -c 'config_file=/postgres.conf'

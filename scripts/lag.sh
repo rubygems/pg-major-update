@@ -1,5 +1,6 @@
 #!/bin/bash
 
+source $(dirname "$0")/../vars
 set -e
 
 # Variables for the timeout mechanism
@@ -8,7 +9,7 @@ TIMEOUT=2000000000       # 2 seconds in nanoseconds (2 billion nanoseconds)
 
 while true; do
     # Check the replication lag
-    REPL_STATUS=$(psql service=new-db -Atc "SELECT CASE WHEN received_lsn = latest_end_lsn THEN 'No lag' ELSE 'Lag detected' END FROM pg_stat_subscription WHERE subname = 'migration_sub';")
+    REPL_STATUS=$(psql "$NEW_CONNECTION" -Atc "SELECT CASE WHEN received_lsn = latest_end_lsn THEN 'No lag' ELSE 'Lag detected' END FROM pg_stat_subscription WHERE subname = 'migration_sub';")
 
     if [ "$REPL_STATUS" = "No lag" ]; then
         echo "[INFO] Replication is in sync."
@@ -21,7 +22,7 @@ while true; do
     
     if [ "$ELAPSED_TIME" -ge "$TIMEOUT" ]; then
         echo "[ERROR] Timeout exceeded. Replication is not in sync."
-        . ./resume.sh
+        . $(dirname "$0")/resume.sh
         exit 1
     fi
 

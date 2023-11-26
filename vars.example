@@ -1,0 +1,4 @@
+OLD_CONNECTION="dbname=rubygems_development host=127.0.0.1 user=rubygems_master password=randompass-old port=5555"
+NEW_CONNECTION="dbname=rubygems_development host=127.0.0.1 user=rubygems_master password=randompass-new port=5556"
+SUB_CONNECTION="dbname=rubygems_development host=old-db user=rubygems_master password=randompass-old port=5555"
+PGB_CONNECTION="host=127.0.0.1 port=5557 user=pgbouncer"

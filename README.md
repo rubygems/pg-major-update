@@ -1,33 +1,25 @@
 # Online PostgreSQL migration
 
-## prepare
+## testing
 
 - get latest dump for testing, unpack and copy to rubygems.sql
 
-```bash
-# in rubygems.org repo
-# use ./script/load-pg-dump to load DB
-# export DB into rubygems.sql
-psql 
-```
 
-- generate pg_service and setup env
+## setup
 
-```
-./setup.sh \
-    --old-host 127.0.0.1 --old-port 5555 --old-user rubygems_master --old-dbname rubygems_development --old-password randompass-old \
-    --new-host 127.0.0.1 --new-port 5556 --new-user rubygems_master --new-dbname rubygems_development --new-password randompass-new \
-    --pgbouncer-host 127.0.0.1 --pgbouncer-port 5557 --pgbouncer-user pgbouncer
+Fill in `vars` file (per https://www.postgresql.org/docs/current/libpq-connect.html#LIBPQ-PARAMKEYWORDS).
+
+- `OLD_CONNECTION` = connection to current DB
+- `NEW_CONNECTION` = connection to new DB
+- `SUB_CONNECTION` = connection to current DB as used from new DB (usually same as `OLD_CONNECTION`, but differs in docker based test example due to specific docker networking)
+- `PGB_CONNECTION` = connection to pgbouncer
 
 ```
-
-- export pgservice file (this is needed in all terminals related to psql commands
-
-```bash
-export PGSERVICEFILE=./pg_service.conf
+$ cp vars.example vars
+# update vars
 ```
 
-## setup clusters
+## setup clusters (for dev testing)
 
 ```bash
 ./scripts/init.sh
@@ -39,38 +31,19 @@ export PGSERVICEFILE=./pg_service.conf
 ./scripts/replicate.sh
 ```
 
-## pause old cluster and wait unless connections are gone
+## wait unless initial replication is in sync
 
 ```bash
-./scripts/pause.sh
+psql "$NEW_CONNECTION" -c "SELECT * FROM pg_stat_subscription" # only one line should be present
 ```
 
-## wait unless replication is in sync
+## migrate
 
 ```bash
-./scripts/lag.sh
-```
-
-## sync sequences manually
-
-```bash
-./scripts/sequences.sh
-```
-
-## stop replication
-
-```bash
-./scripts/unreplicate.sh
-```
-
-## switch pgbouncer to new cluster
-
-```bash
-./scripts/switch.sh
-```
-
-## resume
-
-```bash
-./scripts/resume.sh
+./scripts/pause.sh # pause old cluster and wait unless connections are gone
+./scripts/lag.sh # wait unless replication is in sync
+./scripts/sequences.sh # sync sequences manually
+./scripts/unreplicate.sh # stop replication
+./scripts/switch.sh # switch pgbouncer to new cluster
+./scripts/resume.sh # resume
 ```

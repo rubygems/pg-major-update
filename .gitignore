@@ -1,3 +1,5 @@
 vars
 pg_service.conf
 public_postgresql.tar
+pgbouncer.ini
+schema.sql

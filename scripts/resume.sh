@@ -1,8 +1,8 @@
 #!/bin/bash
 
+source $(dirname "$0")/../vars
 set -e
 
 # Send RESUME command
 echo "[INFO] Resuming."
-psql service=pgbouncer -c "RESUME;" &> /dev/null
-
+psql "$PGB_CONNECTION" -c "RESUME;" &> /dev/null
