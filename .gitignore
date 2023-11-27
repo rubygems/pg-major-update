@@ -1,4 +1,5 @@
-vars
+vars*
+!vars.example
 pg_service.conf
 public_postgresql.tar
 pgbouncer.ini
