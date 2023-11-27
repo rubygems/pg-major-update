@@ -36,6 +36,8 @@ source vars
 
 ### setup pgbouncer
 
+*This is super simple example of running pgbouncer totally unsecured. It could safe when running internally not being exposed in public.*
+
 ```bash
 useradd pgbouncer
 mkdir /tmp/pgb
