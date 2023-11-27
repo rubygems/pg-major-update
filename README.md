@@ -27,7 +27,7 @@ $ source vars
 
 ```bash
 apt-get update
-apt-get install -y postgresql-client pgbouncer vim git procps pspg # vim, git, procps and pspg are optional
+apt-get install -y postgresql-client pgbouncer vim git procps pspg
 export PAGER=pspg
 
 git clone https://github.com/simi/pg-major-update.git
