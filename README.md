@@ -47,10 +47,18 @@ pgbouncer -d pgbouncer.ini --user pgbouncer
 ```
 
 
-### connections check
+### connections check and replication init
 
 ```bash
 ./scripts/checks.sh
+./scripts/replicate.sh
+```
+
+Await until initial replication sync is done. Peek at `pg_stat_subscription` on new DB or `pg_replication_slots` at old DB could be handy .
+
+```bash
+psql "$NEW_CONNECTION" -c "SELECT * FROM pg_stat_subscription" # only one line with migration_sub should be present
+psql "$OLD_CONNECTION" -c "SELECT * FROM pg_replication_slots" # only one line with migration_sub should be present
 ```
 
 ### point application to pgbouncer
@@ -67,7 +75,7 @@ This depends on application configuration. For example it could be enough to cha
 
 ### point application to new cluster
 
-Again, this depends on application configuration. For example it could be enough to change `DATABSAE_URL` secret in K8s and restart deployment to pickup new value.
+Again, this depends on application configuration. For example it could be enough to change `DATABSAE_URL` secret in K8s and restart deployment to pickup new value. Since app doesn't need `pgbouncer` anymore, services like GoodJob can be started and pgbouncer can be removed.
 
 ## testing migration locally
 
