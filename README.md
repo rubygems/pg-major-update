@@ -30,7 +30,8 @@ export PAGER=pspg
 
 git clone https://github.com/simi/pg-major-update.git
 cd pg-major-update
-# update vars file
+vim vars # update vars
+source vars
 ```
 
 ### setup pgbouncer
@@ -43,6 +44,13 @@ chown -R pgbouncer:pgbouncer /tmp/pgb
 cp configs/pgbouncer.ini pgbouncer.ini
 echo "db = $OLD_CONNECTION" >> pgbouncer.ini
 pgbouncer -d pgbouncer.ini --user pgbouncer
+```
+
+
+### connections check
+
+```bash
+./scripts/checks.sh
 ```
 
 ### point application to pgbouncer
