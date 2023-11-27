@@ -1,5 +1,7 @@
 # Online PostgreSQL migration
 
+Simple guide for migrating PostgreSQL cluster to new major version using 2 instances (current one and new one) and pgbouncer as intermediate connection pooler able to forward connections to new instance with no noticeable interruption.
+
 ## variables needed
 
 Fill in `vars` file (per https://www.postgresql.org/docs/current/libpq-connect.html#LIBPQ-PARAMKEYWORDS).
@@ -36,7 +38,7 @@ source vars
 
 ### setup pgbouncer
 
-*This is super simple example of running pgbouncer totally unsecured. It could safe when running internally not being exposed in public.*
+*This is super simple example of running pgbouncer totally unsecured. It could be safe when running internally and not being exposed in public.*
 
 ```bash
 useradd pgbouncer
