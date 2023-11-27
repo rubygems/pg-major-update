@@ -1,6 +1,6 @@
 # Online PostgreSQL migration
 
-Simple guide for migrating PostgreSQL cluster to new major version using 2 instances (current one and new one) and pgbouncer as intermediate connection pooler able to forward connections to new instance with no noticeable interruption.
+Simple guide for migrating PostgreSQL cluster to new major version using 2 instances (current one and new one), logical replication and pgbouncer as intermediate connection pooler able to forward connections to new instance with no noticeable interruption.
 
 ## variables needed
 
