@@ -30,7 +30,7 @@ apt-get update
 apt-get install -y postgresql-client pgbouncer vim git procps pspg
 export PAGER=pspg
 
-git clone https://github.com/simi/pg-major-update.git
+git clone https://github.com/rubygems/pg-major-update.git
 cd pg-major-update
 vim vars # update vars
 source vars
