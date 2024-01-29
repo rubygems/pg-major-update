@@ -87,7 +87,7 @@ Again, this depends on application configuration. For example it could be enough
 
 ```bash
 cp vars.example vars # preconfigured values for docker-compose.yml and configs/pgbouncer.ini
-# download latest public_postgresql.tar from https://rubygems.org/pages/data into root folder
+docker compose up -d
 ./scripts/init.sh # start local pg instances and pgbouncer
 ./scripts/replicate.sh # start replication
 # wait unless initial replication is in sync, for example with following command
