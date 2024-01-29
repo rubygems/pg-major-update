@@ -49,6 +49,11 @@ echo "[INFO] Creating PostgreSQL extension..."
 psql "$OLD_CONNECTION" -c "CREATE EXTENSION IF NOT EXISTS hstore;" &> /dev/null
 
 # Import SQL dump into the old-db
+if [ ! -f "public_postgresql.tar" ]; then
+  echo "[INFO] Downloading RubyGems.org dump..."
+  wget $(curl -s "https://s3-us-west-2.amazonaws.com/rubygems-dumps/?prefix=production/public_postgresql" | xmllint --xpath '//*[local-name()="Contents"]/*[local-name()="Key"]/text()' - | sort -r | head -n 1 | awk '{print "https://s3-us-west-2.amazonaws.com/rubygems-dumps/"$0}') &> /dev/null
+fi
+
 echo "[INFO] Importing RubyGems.org dump, it can take a while..."
 tar xOf public_postgresql.tar public_postgresql/databases/PostgreSQL.sql.gz | gunzip -c | psql "$OLD_CONNECTION" &> /dev/null
 
