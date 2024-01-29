@@ -1,7 +1,7 @@
 version: '2.1'
 services:
   old-db:
-    image: postgres:11
+    image: postgres:12
     environment:
       - POSTGRES_USER=rubygems_master
       - POSTGRES_DB=rubygems_development
@@ -14,7 +14,7 @@ services:
       - "./configs/postgres.old.conf:/postgres.conf:z"
     command: postgres -c 'config_file=/postgres.conf'
   new-db:
-    image: postgres:12
+    image: postgres:13
     environment:
       - POSTGRES_USER=rubygems_master
       - POSTGRES_DB=rubygems_development
