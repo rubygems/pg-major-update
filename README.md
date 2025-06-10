@@ -83,7 +83,7 @@ Again, this depends on application configuration. For example it could be enough
 
 ## testing migration locally
 
-`pgbouncer`, `tar` and `gunzip` needs to be installed locally. Two PostgreSQL instances for testing will be created using Docker (docker-compose).
+`pgbouncer`, `tar`, `xmllint` (`libxml2-utils`), `psql` and `gunzip` needs to be installed locally. Two PostgreSQL instances for testing will be created using Docker (docker-compose).
 
 ```bash
 cp vars.example vars # preconfigured values for docker-compose.yml and configs/pgbouncer.ini
