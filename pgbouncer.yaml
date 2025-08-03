@@ -28,9 +28,15 @@ spec:
     spec:
       containers:
         - name: pgbouncer
-          image: public.ecr.aws/docker/library/debian:11
+          image: public.ecr.aws/docker/library/debian:12
           imagePullPolicy: IfNotPresent
           command: [ "/bin/sh", "-c", "--" ]
-          args: [ "while true; do sleep 30; done;" ]
+          args:
+            - |
+              apt-get update && \
+              apt-get install -y postgresql-client pgbouncer vim git procps pspg && \
+              git clone https://github.com/rubygems/pg-major-update.git && \
+
+              cd pg-major-update && \
           ports:
             - containerPort: 5557
